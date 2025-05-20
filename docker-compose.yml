@@ -23,3 +23,40 @@ services:
       - backend
     restart: unless-stopped
 
+  ts-backend:
+    image: tailscale/tailscale:latest
+    container_name: ts-backend
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}?ephemeral=false
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container1
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - tailscale-backend-var-lib:/var/lib/tailscale
+    network_mode: "service:backend"
+    depends_on:
+      - backend
+
+  ts-frontend:
+    image: tailscale/tailscale:latest
+    container_name: ts-frontend
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}?ephemeral=false
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+      - TS_AUTHKEY=${TS_AUTHKEY}
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - tailscale-frontend-var-lib:/var/lib/tailscale
+    network_mode: "service:frontend"
+    depends_on:
+      - frontend
+
+volumes:
+  tailscale-backend-var-lib:
+  tailscale-frontend-var-lib:
+
