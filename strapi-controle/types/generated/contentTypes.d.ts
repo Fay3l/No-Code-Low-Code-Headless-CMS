@@ -395,6 +395,7 @@ export interface ApiDirectorDirector extends Struct.CollectionTypeSchema {
       'api::director.director'
     > &
       Schema.Attribute.Private;
+    movie: Schema.Attribute.Relation<'oneToOne', 'api::film.film'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -418,7 +419,9 @@ export interface ApiFilmFilm extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    director: Schema.Attribute.Relation<'oneToOne', 'api::director.director'>;
     duration: Schema.Attribute.String;
+    genres: Schema.Attribute.Relation<'oneToMany', 'api::genre.genre'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::film.film'> &
       Schema.Attribute.Private;
@@ -449,6 +452,7 @@ export interface ApiGenreGenre extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::genre.genre'> &
       Schema.Attribute.Private;
+    movie: Schema.Attribute.Relation<'manyToOne', 'api::film.film'>;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

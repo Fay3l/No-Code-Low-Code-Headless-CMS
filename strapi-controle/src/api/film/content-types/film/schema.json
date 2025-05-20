@@ -22,6 +22,18 @@
     },
     "duration": {
       "type": "string"
+    },
+    "director": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::director.director",
+      "inversedBy": "movie"
+    },
+    "genres": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::genre.genre",
+      "mappedBy": "movie"
     }
   }
 }
