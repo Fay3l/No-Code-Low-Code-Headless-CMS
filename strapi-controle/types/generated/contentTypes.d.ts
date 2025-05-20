@@ -422,6 +422,7 @@ export interface ApiFilmFilm extends Struct.CollectionTypeSchema {
     director: Schema.Attribute.Relation<'oneToOne', 'api::director.director'>;
     duration: Schema.Attribute.String;
     genres: Schema.Attribute.Relation<'oneToMany', 'api::genre.genre'>;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::film.film'> &
       Schema.Attribute.Private;

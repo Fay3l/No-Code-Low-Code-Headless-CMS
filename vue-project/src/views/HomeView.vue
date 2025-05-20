@@ -1,15 +1,21 @@
 <template>
-  <div class="home-view">
+  <div >
     <h1>Liste des Films</h1>
     <div v-if="loading">Chargement...</div>
     <div v-else>
       <div v-for="movie in movies" :key="movie.id" class="movie-card">
+        <img
+          v-if="movie.image && movie.image.url"
+          :src="movie.image.url.startsWith('http') ? movie.image.url : `${API_URL.replace('/api','')}${movie.image.url}`"
+          :alt="movie.title"
+          style="max-width: 200px; display: block; margin-bottom: 1rem;"
+        />
         <h2>{{ movie.title }}</h2>
-        <p><strong>Réalisateur:</strong> {{ movie.director?.name || 'Inconnu' }}</p>
+        <p><strong>Réalisateur: </strong> {{ movie.director?.firstname || 'Inconnu' }}</p>
         <p>
           <strong>Genres:</strong>
           <span v-for="genre in movie.genres" :key="genre.id">
-            {{ genre.name }}<span v-if="!isLastGenre(movie.genres, genre)">, </span>
+            {{ genre.name }}
           </span>
         </p>
         <p>{{ movie.description }}</p>
@@ -36,7 +42,7 @@ const token = localStorage.getItem('jwt')
 onMounted(async () => {
   loading.value = true
   try {
-    const response = await axios.get(`${API_URL}/films`, {
+    const response = await axios.get(`${API_URL}/films?populate=*`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -53,11 +59,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.home-view {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
-}
+
 .movie-card {
   border: 1px solid #ccc;
   border-radius: 8px;
