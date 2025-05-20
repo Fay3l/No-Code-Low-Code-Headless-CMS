@@ -36,7 +36,8 @@ npm install
 npm run develop
 ```
 Accès à l’admin Strapi : http://localhost:1337/admin
-3. Installer et lancer le frontend Vue.js
+
+### 3. Installer et lancer le frontend Vue.js
 
 ```bash
 cd vue-project
@@ -45,6 +46,21 @@ npm run dev
 ```
 
 Accès à l’application : http://localhost:5173
+
+### Autre Méthode
+
+### 1. Cloner le dépôt
+
+```bash
+git clone <url-du-repo>
+cd CMS\ Headless
+```
+
+### 2 Utilisation docker 
+
+```bash
+docker-compose up 
+```
 
 #### Utilisation
 Créer/modifier du contenu : via l’interface d’administration Strapi.
