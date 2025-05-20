@@ -1,9 +1,10 @@
 <template>
-  <div >
+  <div class="bg-red-50" >
     <h1>Liste des Films</h1>
     <div v-if="loading">Chargement...</div>
     <div v-else>
       <div v-for="movie in movies" :key="movie.id" class="movie-card">
+      <button @click="$router.push(`film/${movie.documentId}`)" style="border: none; background: none; padding: 0;">
         <img
           v-if="movie.image && movie.image.url"
           :src="movie.image.url.startsWith('http') ? movie.image.url : `${API_URL.replace('/api','')}${movie.image.url}`"
@@ -11,14 +12,15 @@
           style="max-width: 200px; display: block; margin-bottom: 1rem;"
         />
         <h2>{{ movie.title }}</h2>
-        <p><strong>Réalisateur: </strong> {{ movie.director?.firstname || 'Inconnu' }}</p>
+        <p><strong>Réalisateur: </strong> {{ movie.director?.firstname +" "+ movie.director?.lastname || 'Inconnu' }}</p>
         <p>
           <strong>Genres:</strong>
           <span v-for="genre in movie.genres" :key="genre.id">
             {{ genre.name }}
           </span>
         </p>
-        <p>{{ movie.description }}</p>
+        <p>{{ movie.year }}</p>
+        </button>
       </div>
     </div>
   </div>

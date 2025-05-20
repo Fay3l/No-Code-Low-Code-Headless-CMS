@@ -431,7 +431,7 @@ export interface ApiFilmFilm extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    year: Schema.Attribute.BigInteger;
+    year: Schema.Attribute.String;
   };
 }
 
