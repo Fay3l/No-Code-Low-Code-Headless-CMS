@@ -1,27 +1,34 @@
 <template>
-  <div class="flex flex-col items-center justify-center" >
-    <p class="font-bold text-2xl m-2">Liste des Films</p>
+  <div class="flex flex-col items-center justify-center">
+    <div class="grid grid-cols-3 gap-4 m-5">
+      <p class="font-bold col-start-2 text-2xl m-2">Liste des Films</p>
+      <button
+        class="rounded-lg bg-blue-500 col-start-3 text-white p-2 hover:bg-blue-700"
+        @click="logout()">
+        Se déconnecter
+      </button>
+    </div>
     <div v-if="loading">Chargement...</div>
     <div v-else class="grid grid-cols-4 gap-4 m-5">
-      <div v-for="movie in movies" :key="movie.id" class="border-1 border-gray-300 rounded-lg flex flex-col items-center p-4 ">
-      <button @click="$router.push(`film/${movie.documentId}`)" style="border: none; background: none; padding: 0;">
-        <img
-          v-if="movie.image && movie.image.url"
-          :src="movie.image.url.startsWith('http') ? movie.image.url : `${API_URL.replace('/api','')}${movie.image.url}`"
-          :alt="movie.title"
-          style="max-width: 200px; display: block; margin-bottom: 1rem;"
-        />
-        <p class="font-bold">{{ movie.title }}</p>
-        <p><strong>Réalisateur: </strong> {{ movie.director?.firstname +" "+ movie.director?.lastname || 'Inconnu' }}</p>
-        <p>
-          <strong>Genres: </strong>
-          <span v-for="genre in movie.genres" :key="genre.id">
-            {{ genre.name }}
-          </span>
-        </p>
-        <p><strong>Année: </strong> {{ movie.year }}</p>
-        </button>
-      </div>
+      <button @click="$router.push(`film/${movie.documentId}`)" class="hover:bg-gray-100 ">
+        <div v-for="movie in movies" :key="movie.id"
+          class="border-1 border-gray-300 rounded-lg flex flex-col items-center p-4 ">
+          <img v-if="movie.image && movie.image.url"
+            :src="movie.image.url.startsWith('http') ? movie.image.url : `${API_URL.replace('/api', '')}${movie.image.url}`"
+            :alt="movie.title" style="max-width: 200px; display: block; margin-bottom: 1rem;" />
+          <p class="font-bold">{{ movie.title }}</p>
+          <p><strong>Réalisateur: </strong> {{ movie.director?.firstname + " " + movie.director?.lastname || 'Inconnu' }}
+          </p>
+          <p>
+            <strong>Genres: </strong>
+            <span v-for="genre in movie.genres" :key="genre.id">
+              {{ genre.name }}
+            </span>
+          </p>
+          <p><strong>Année: </strong> {{ movie.year }}</p>
+
+        </div>
+      </button>
     </div>
   </div>
 </template>
@@ -39,6 +46,10 @@ const API_URL = 'http://localhost:1337/api'
 // Remplacez ceci par la gestion réelle du token après connexion
 const token = localStorage.getItem('jwt')
 
+function logout(){
+  $router.push('/login')
+  localStorage.removeItem('jwt')
+}
 
 
 onMounted(async () => {
@@ -53,13 +64,11 @@ onMounted(async () => {
     movies.value = response.data.data
     console.log('Films récupérés:', movies.value)
   } catch (e) {
-    console.log('Erreur lors du chargement des films ',e)
+    console.log('Erreur lors du chargement des films ', e)
   } finally {
     loading.value = false
   }
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

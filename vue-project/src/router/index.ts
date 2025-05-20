@@ -11,6 +11,9 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      meta:{
+        requiresAuth: true
+      }
     },
     {
       path: '/film/:documentId',
@@ -37,5 +40,22 @@ const router = createRouter({
     }
   ],
 })
+
+// Navigation guard pour protéger la page d'accueil
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      // User is authenticated, proceed to the route
+      next();
+    } else {
+      // User is not authenticated, redirect to login
+      next('/login');
+    }
+  } else {
+    // Non-protected route, allow access
+    next();
+  }
+});
 
 export default router

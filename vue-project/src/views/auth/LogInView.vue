@@ -1,10 +1,32 @@
-<template>
-    <div class="login-container">
-        <h2>Connexion</h2>
+<template> 
+    <div class="max-w-[400px] mx-auto mt-[50px] p-8 border border-gray-200 rounded-lg bg-white shadow">
+        <p class="block mb-2 text-sm font-medium text-gray-700">Connexion</p>
         <form @submit.prevent="login">
-            <input v-model="identifier" type="text" placeholder="Email ou nom d'utilisateur" required />
-            <input v-model="password" type="password" placeholder="Mot de passe" required />
-            <button type="submit" :disabled="loading">Se connecter</button>
+            <!-- Modern input design with Tailwind CSS -->
+            <label class="block mb-2 text-sm font-medium text-gray-700">Identifiant</label>
+            <input
+                v-model="identifier"
+                type="text"
+                placeholder="Email ou nom d'utilisateur"
+                required
+                class="mb-4 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            />
+            <label class="block mb-2 text-sm font-medium text-gray-700">Mot de passe</label>
+            <input
+                v-model="password"
+                type="password"
+                placeholder="Mot de passe"
+                required
+                class="mb-4 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            />
+            <button
+                type="submit"
+                :disabled="loading"
+                class="w-full flex justify-center items-center px-4 py-2 mb-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <span v-if="loading" class="animate-spin mr-2 h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                Se connecter
+            </button>
             <p v-if="error" class="error">{{ error }}</p>
         </form>
     </div>
@@ -42,13 +64,7 @@ const login = async () => {
 </script>
 
 <style scoped>
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 2rem;
-    border: 1px solid #eee;
-    border-radius: 8px;
-}
+
 input, button {
     display: block;
     width: 100%;
