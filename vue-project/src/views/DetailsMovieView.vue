@@ -1,20 +1,23 @@
+
 <template>
-    <div class="movie-details">
-        <h1>{{ movie.title }}</h1>
-        <ul>
-            <li v-if="movie.image && movie.image.url">
+    <div class="flex flex-col items-center justify-center h-screen ">
+        <p class="font-bold text-xl">{{ movie.title }}</p>
+        <div class="flex items-center m-5 justify-center gap-10">
+            <div v-if="movie.image && movie.image.url">
                 <img
                     :src="movie.image.url.startsWith('http') ? movie.image.url : `${API_URL.replace('/api','')}${movie.image.url}`"
                     :alt="movie.title"
-                    style="max-width: 200px; display: block; margin-bottom: 1rem;"
-            ></li>
-            <li><strong>Réalisateur :</strong> {{ movie.director?.firstname }} {{ movie.director?.lastname }}</li>
-            <li v-for="genre in movie.genres" :key="genre.id"><strong>Genre :</strong> {{ genre.name }}</li>
-            <li><strong>Année :</strong> {{ movie.year }}</li>
-            <li><strong>Durée :</strong> {{ movie.duration }} minutes</li>
-        </ul>
-        <p><strong>Description :</strong></p>
-        <p>{{ movie.description }}</p>
+                    class="max-w-[200px]"
+            ></div>
+            <div>
+                 <div><strong>Réalisateur :</strong> {{ movie.director?.firstname }} {{ movie.director?.lastname }}</div>
+                <div v-for="genre in movie.genres" :key="genre.id"><strong>Genre :</strong> {{ genre.name }}</div>
+                <div><strong>Année :</strong> {{ movie.year }}</div>
+                <div><strong>Durée :</strong> {{ movie.duration }} minutes</div>
+                <p><strong>Description :</strong></p>
+                <p>{{ movie.description }}</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -56,21 +59,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.movie-details {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-}
-.movie-details h1 {
-    margin-bottom: 1rem;
-}
-.movie-details ul {
-    list-style: none;
-    padding: 0;
-}
-.movie-details li {
-    margin-bottom: 0.5rem;
-}
+
+
 </style>
