@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./strapi-controle
+    container_name: strapi-backend
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./strapi-controle:/app
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./vue-project
+    container_name: vue-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
