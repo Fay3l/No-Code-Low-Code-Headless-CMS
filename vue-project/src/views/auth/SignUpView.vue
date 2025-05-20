@@ -26,6 +26,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import router from '@/router'
 
 const form = ref({
     username: '',
@@ -48,6 +49,7 @@ const handleSignUp = async () => {
         })
         success.value = true
         form.value = { username: '', email: '', password: '' }
+        router.push('/login')
     } catch (e) {
         error.value = e.response?.data?.error?.message || 'Erreur lors de la création du compte.'
     } finally {
