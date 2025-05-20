@@ -33,9 +33,21 @@ jobs:
         sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
+    - name: Remove Docker Compose
+      run: docker compose down
+
     - name: Build and start containers
       run: |
         sudo docker-compose -f "docker-compose.yml" up -d
 
     - name: Check ts front
       run: docker container logs ts-frontend
+
+    - name: Check ts back
+      run: docker container logs ts-backend
+    
+    - name: Funnel frontend
+      run: docker container exec ts-frontend tailscale funnel --https=443 --bg 
+    
+    - name: Funnel backend
+      run: docker container exec ts-backend tailscale funnel --https=8443 --bg
