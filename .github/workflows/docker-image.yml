@@ -33,6 +33,17 @@ jobs:
         sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
+    - name: Check running containers
+      id: check_containers
+      run: |
+        if [ "$(docker ps -q -f name=ts-frontend)" ] || [ "$(docker ps -q -f name=ts-backend)" ]; then
+          echo "Containers are running."
+          echo "::set-output name=containers_running::true"
+        else
+          echo "No containers are running."
+          echo "::set-output name=containers_running::false"
+        fi
+
     - name: Remove Docker Compose
       run: docker compose down
 
@@ -46,8 +57,3 @@ jobs:
     - name: Check ts back
       run: docker container logs ts-backend
     
-    - name: Funnel frontend
-      run: docker container exec ts-frontend tailscale funnel --https=443 --bg 
-    
-    - name: Funnel backend
-      run: docker container exec ts-backend tailscale funnel --https=8443 --bg
