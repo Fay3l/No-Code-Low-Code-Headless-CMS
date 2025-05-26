@@ -16,6 +16,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Echo Path
+      run: echo "Current path: $PWD"
+
+    - name: List files
+      run: ls -la
+    
     - name: Check if Docker Compose is installed
       id: check_docker_compose
       run: |
