@@ -77,7 +77,7 @@ services:
       - ${PWD}/tailscale/config:/config
     network_mode: "service:backend"
     depends_on:
-      - backend
+      - strapi
 
   ts-frontend:
     image: tailscale/tailscale:latest
