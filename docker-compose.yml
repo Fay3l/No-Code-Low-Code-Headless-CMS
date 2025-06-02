@@ -6,6 +6,7 @@ services:
       context: ./strapi-controle
     image: strapi:latest
     restart: unless-stopped
+    env_file: ./strapi-controle/.env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: strapiDB
