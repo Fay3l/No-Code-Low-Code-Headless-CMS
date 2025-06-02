@@ -8,6 +8,16 @@ on:
 
 env:
   TS_AUTHKEY: ${{ secrets.TS_AUTHKEY }}
+  APP_KEYS: ${{ secrets.APP_KEYS }}
+  API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
+  ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+  TRANSFER_TOKEN_SALT: ${{ secrets.TRANSFER_TOKEN_SALT }}
+  ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+  DATABASE_CLIENT: ${{ secrets.DATABASE_CLIENT }}
+  DATABASE_SSL: ${{ secrets.DATABASE_SSL }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  DATABASE_FILENAME: ${{ secrets.DATABASE_FILENAME }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   build:
