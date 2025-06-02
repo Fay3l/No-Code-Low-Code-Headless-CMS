@@ -34,6 +34,19 @@ jobs:
 
     - name: List files
       run: ls -la ./strapi-controle
+
+    - name: Create file .env
+      run: |
+        touch ./strapi-controle/.env
+        echo "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT }}" > ./strapi-controle/.env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> ./strapi-controle/.env
+        echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> ./strapi-controle/.env
+        echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> ./strapi-controle/.env
+        echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> ./strapi-controle/.env
+        echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> ./strapi-controle/.env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> ./strapi-controle/.env
+        echo "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }}" >> ./strapi-controle/.env
+        echo "APP_KEYS=${{ secrets.APP_KEYS }}" >> ./strapi-controle/.env
     
     - name: Check if Docker Compose is installed
       id: check_docker_compose
