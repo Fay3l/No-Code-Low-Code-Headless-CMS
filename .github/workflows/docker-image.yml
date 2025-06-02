@@ -33,7 +33,7 @@ jobs:
         echo "Current path: $PWD"
 
     - name: List files
-      run: ls -la
+      run: ls -la ./strapi-controle
     
     - name: Check if Docker Compose is installed
       id: check_docker_compose
