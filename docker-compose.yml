@@ -75,7 +75,6 @@ services:
       - /dev/net/tun:/dev/net/tun
       - ${PWD}/tailscale/state:/var/lib/tailscale
       - ${PWD}/tailscale/config:/config
-    network_mode: "service:backend"
     depends_on:
       - strapi
 
