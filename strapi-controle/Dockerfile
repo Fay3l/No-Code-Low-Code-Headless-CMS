@@ -1,20 +1,19 @@
-# Utilise l'image officielle Node.js
-FROM node:20
+FROM node:22-alpine
+# Installing libvips-dev for sharp Compatibility
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
-# Définir le répertoire de travail
-WORKDIR /app
+WORKDIR /opt/
+COPY package.json package-lock.json ./
+RUN npm install -g node-gyp
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
+ENV PATH=/opt/node_modules/.bin:$PATH
 
-# Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
-
-# Installer les dépendances
-RUN npm install
-
-# Copier le reste du code source
+WORKDIR /opt/app
 COPY . .
-
-# Exposer le port Strapi par défaut
+RUN chown -R node:node /opt/app
+USER node
+RUN ["npm", "run", "build"]
 EXPOSE 1337
-
-# Lancer Strapi en mode développement (ou "start" pour la prod)
 CMD ["npm", "run", "develop"]
