@@ -35,19 +35,6 @@ jobs:
     - name: List files
       run: ls -la ./strapi-controle
     
-    - name: Create file .env
-      run: |
-        touch ./strapi-controle/.env
-        echo "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT }}" > ./strapi-controle/.env
-        echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> ./strapi-controle/.env
-        echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> ./strapi-controle/.env
-        echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> ./strapi-controle/.env
-        echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> ./strapi-controle/.env
-        echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> ./strapi-controle/.env
-        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> ./strapi-controle/.env
-        echo "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }}" >> ./strapi-controle/.env
-        echo "APP_KEYS=${{ secrets.APP_KEYS }}" >> ./strapi-controle/.env
-    
     - name: Check if Docker Compose is installed
       id: check_docker_compose
       run: |
@@ -65,19 +52,6 @@ jobs:
         sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
-    - name: Check running containers
-      id: check_containers
-      run: |
-        if [ "$(docker ps -q -f name=ts-frontend)" ] || [ "$(docker ps -q -f name=ts-backend)" ]; then
-          echo "Containers are running."
-          echo "::set-output name=containers_running::true"
-        else
-          echo "No containers are running."
-          echo "::set-output name=containers_running::false"
-        fi
-
-    - name: Remove Docker Compose
-      run: docker compose down
 
     - name: Build and start containers
       run: |
