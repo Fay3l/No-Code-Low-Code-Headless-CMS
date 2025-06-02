@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   backend:
     build:
@@ -27,14 +26,17 @@ services:
     image: tailscale/tailscale:latest
     container_name: ts-backend
     cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
+      - net_admin
+      - sys_module
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}?ephemeral=false
       - TS_EXTRA_ARGS=--advertise-tags=tag:container1
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
     volumes:
       - /dev/net/tun:/dev/net/tun
-      - tailscale-backend-var-lib:/var/lib/tailscale
+      - ${PWD}/tailscale/state:/var/lib/tailscale
+      - ${PWD}/tailscale/config:/config
     network_mode: "service:backend"
     depends_on:
       - backend
@@ -43,20 +45,27 @@ services:
     image: tailscale/tailscale:latest
     container_name: ts-frontend
     cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
+      - net_admin
+      - sys_module
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}?ephemeral=false
       - TS_EXTRA_ARGS=--advertise-tags=tag:container
-      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
     volumes:
       - /dev/net/tun:/dev/net/tun
-      - tailscale-frontend-var-lib:/var/lib/tailscale
-    network_mode: "service:frontend"
+      - ${PWD}/tailscale/state:/var/lib/tailscale
+      - ${PWD}/tailscale/config:/config
     depends_on:
       - frontend
 
 volumes:
-  tailscale-backend-var-lib:
-  tailscale-frontend-var-lib:
+  frontend:
+    driver: local
+  ts-frontend:
+    driver: local
+  backend:
+    driver: local
+  ts-backend:
+    driver: local
 
