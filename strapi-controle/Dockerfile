@@ -14,5 +14,6 @@ WORKDIR /opt/app
 COPY . .
 RUN chown -R node:node /opt/app
 USER node
+RUN ["npm", "run", "build"]
 EXPOSE 1337
-RUN ["npm", "run", "develop"]
+CMD ["npm", "run", "develop"]
